@@ -198,6 +198,12 @@ final class DiceKeysCameraController: NSObject, AVCaptureVideoDataOutputSampleBu
         if let layer = layer {
             layer.insertSublayer(previewLayer, at: 0)
         }
+        #if os(macOS)
+        if let connection = previewLayer.connection, connection.isVideoMirroringSupported {
+            connection.automaticallyAdjustsVideoMirroring = false
+            connection.isVideoMirrored = true
+        }
+        #endif
         previewLayer.frame = view.frame
         self.previewLayer = previewLayer
     }
